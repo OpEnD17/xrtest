@@ -59,7 +59,7 @@ const WebXR = () => {
         console.log(`User ${id} Joined!`);
         console.log(users)
         users[id] = [0, 0, 0];
-        setUsers({...users});
+        setUsers({ ...users });
         // const newUsers = {
         //     ...users,
         // }
@@ -71,7 +71,7 @@ const WebXR = () => {
     const onUserLeft = id => {
         console.log(`User ${id} left!`);
         delete users[id];
-        setUsers({...users});
+        setUsers({ ...users });
     };
 
     const onMessgeReceived = (r, data) => {
@@ -79,7 +79,7 @@ const WebXR = () => {
         switch (data.type) {
             case "pos":
                 users[r._id] = [data.x, data.z, data.r]
-                setUsers({...users});
+                setUsers({ ...users });
                 break;
             default:
                 break;
@@ -149,22 +149,26 @@ const WebXR = () => {
             <Scene>
                 <Entity primitive="a-plane" position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4" />
                 <Entity primitive="a-sky" color="#ECECEC" />
-                <Entity primitive="a-camera" user-height="1.6" look-controls = "pointerLockEnabled: true" send-pos>
-                    <Entity
-                        primitive="a-cursor"
-                        cursor={{ fuse: false }}
-                        material={{ color: 'white', shader: 'flat', opacity: 0.75 }}
-                        geometry={{ radiusInner: 0.005, radiusOuter: 0.007 }}
-                    />
-                    <Entity primitive="a-box" key="me" id="me" position = "-1 0 1"/>
-                </Entity>
+                <a-entity id = "cam-rig">
+                    <Entity id = 'cam' primitive="a-camera" user-height="1.6" look-controls="pointerLockEnabled: true" send-pos>
+                        <Entity
+                            primitive="a-cursor"
+                            cursor={{ fuse: false }}
+                            material={{ color: 'white', shader: 'flat', opacity: 0.75 }}
+                            geometry={{ radiusInner: 0.005, radiusOuter: 0.007 }}
+                        />
+                        <a-entity teleport-controls = "cameraRig: #cam-rig; teleportOrigin: #cam" gearvr-controls></a-entity>
+                        <Entity primitive="a-box" key="me" id="me" position="-1 0 1" />
+                    </Entity>
+                </a-entity>
+
                 {
                     Object.keys(users).map(id => id !== "me" && <Avatar key={id} id={id} pos={users[id]} />)
                 }
-                
+
                 <a-box data-brackets-id="514" color="#AA0000" depth="0.2" height="0.7" width="5" material="" geometry="" position="-1.0 0.35 1.5"></a-box>
                 <a-box color="#AA0000" depth="2.4" height="0.1" width="5.5" position="-1.0 0.73905 1.5"></a-box>
-                
+
                 {/* <!--radio--> */}
                 <a-entity data-brackets-id="327" id="yellow" gltf-model="aframe/radio/scene.gltf" position="9.11851 0.45804 -7.96256" sound="src: mpi,Benjamin%20-%20Inferno.mp3" scale="0.2 0.2 0.2" rotation="0 17.71 0">
                     <a-sphere data-brackets-id="328" color="#00AA00" radius="0.2" position="-0.5 0.93319 0" play="" material="" geometry=""></a-sphere>
