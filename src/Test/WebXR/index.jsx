@@ -145,8 +145,9 @@ const WebXR = () => {
             {
                 Object.keys(users).map(id => id !== "me" && <div> key={id} id={id} pos={users[id]} </div>)
             } */}
-
-            <Scene>
+            
+            <Scene vr-mode-ui = "enterVRButton: #button">
+                <a id="button" style={{position: "fixed", zIndex: 999}}>Enter VR Mode</a>
                 <Entity primitive="a-plane" position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4" />
                 <Entity primitive="a-sky" color="#ECECEC" />
                 <a-entity id = "cam-rig">
