@@ -145,22 +145,23 @@ const WebXR = () => {
             {
                 Object.keys(users).map(id => id !== "me" && <div> key={id} id={id} pos={users[id]} </div>)
             } */}
-            
-            <Scene vr-mode-ui = "enterVRButton: #button">
-                <a id="button" style={{position: "fixed", zIndex: 999}}>Enter VR Mode</a>
+
+            <Scene vr-mode-ui="enterVRButton: #button">
+                <a id="button" style={{ position: "fixed", zIndex: 999 }}>Enter VR Mode</a>
                 <Entity primitive="a-plane" position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4" />
                 <Entity primitive="a-sky" color="#ECECEC" />
-                <a-entity id = "cam-rig">
-                    <Entity id = 'cam' primitive="a-camera" user-height="1.6" look-controls="pointerLockEnabled: true" send-pos>
+                <a-entity id='cameraRig'>
+                    <Entity id='head' primitive="a-camera" user-height="1.6" look-controls="pointerLockEnabled: true" send-pos>
                         <Entity
                             primitive="a-cursor"
                             cursor={{ fuse: false }}
                             material={{ color: 'white', shader: 'flat', opacity: 0.75 }}
                             geometry={{ radiusInner: 0.005, radiusOuter: 0.007 }}
                         />
-                        <a-entity teleport-controls = "cameraRig: #cam-rig; teleportOrigin: #cam" gearvr-controls></a-entity>
                         <Entity primitive="a-box" key="me" id="me" position="-1 0 1" />
                     </Entity>
+                    <a-entity id="left-hand" teleport-controls="cameraRig: #cameraRig; teleportOrigin: #head;" gearvr-controls></a-entity>
+                    <a-entity id="right-hand" teleport-controls="cameraRig: #cameraRig; teleportOrigin: #head;" gearvr-controls></a-entity>
                 </a-entity>
 
                 {
